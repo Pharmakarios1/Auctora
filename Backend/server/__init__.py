@@ -7,6 +7,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from server.config import app_configs, init_db
+from server.middlewares.exception_handler import (
+    ExcRaiser,
+    RequestValidationError,
+    HTTPException,
+    request_validation_error_handler,
+    HTTP_error_handler,
+    exception_handler,
+)
 
 
 def create_app(app_name: str = 'temporary') -> FastAPI:
@@ -34,5 +42,10 @@ def create_app(app_name: str = 'temporary') -> FastAPI:
     def redirect():
         return RedirectResponse(url=app_configs.SWAGGER_DOCS_URL, status_code=302)
     
+    app.exception_handler = {
+        ExcRaiser: exception_handler,
+        RequestValidationError: request_validation_error_handler,
+        HTTPException: HTTP_error_handler
+    }
     init_db()
     return app
