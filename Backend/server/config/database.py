@@ -15,11 +15,6 @@ import os
 
 load_dotenv()
 
-
-REDIS_HOST = app_configs.DB.REDIS_HOST
-REDIS_PORT = int(app_configs.DB.REDIS_PORT)
-REDIS_DB = int(app_configs.DB.REDIS_DB)
-
 # for ci testing
 environment = os.getenv("ENV", "test")
 
@@ -60,20 +55,28 @@ def get_db() -> Iterator[Session]:
         db.close()
 
 
-def get_redis() -> SyncRedis:
-    redis = SyncRedis(
-        host=REDIS_HOST,
-        port=REDIS_PORT,
-        db=REDIS_DB,
-        decode_responses=True,
-    )
-    return redis
+class RedisStorage:
+    def __init__(self, host: str, port: int, db: int) -> None:
+        self.redis = self.get_redis(host, port, db)
+        self.async_redis = None
 
-async def async_get_redis() -> Redis:
-    redis = await Redis(
-        host=REDIS_HOST,
-        port=REDIS_PORT,
-        db=REDIS_DB,
-        decode_responses=True,
-    )
-    return redis
+    def get_redis(self, host: str, port: int, db: int) -> SyncRedis:
+        """Get a synchronous Redis connection."""
+        redis = SyncRedis(
+            host=host,
+            port=port,
+            db=db,
+            decode_responses=True,
+        )
+        return redis
+
+    async def get_async_redis(self, host: str, port: int, db: int) -> Redis:
+        """Get an asynchronous Redis connection."""
+        if self.async_redis is None:
+            self.async_redis = Redis(
+                host=host,
+                port=port,
+                db=db,
+                decode_responses=True,
+            )
+        return self.async_redis
