@@ -7,14 +7,24 @@ class UserRepository(Repository):
     def __init__(self, db):
         super().__init__(db, Users)
 
-    async def get_by_email(self, email: str) -> GetUserSchema:
+    async def get_by_email(
+            self, email: str, schema_mode: bool = False
+        ) -> GetUserSchema | Users:
         user = await self.get_by_attr({'email': email})
-        if user:
+        if user and schema_mode:
             user = GetUserSchema.model_validate(user)
-        return user if user else None
+            return user
+        elif user and not schema_mode:
+            return user
+        return None
     
-    async def get_by_username(self, username: str) -> GetUserSchema:
+    async def get_by_username(
+            self, username: str, schema_mode: bool = False
+        ) -> GetUserSchema | Users:
         user = await self.get_by_attr({'username': username})
-        if user:
+        if user and schema_mode:
             user = GetUserSchema.model_validate(user)
-        return user if user else None
+            return user
+        elif user and not schema_mode:
+            return user
+        return None

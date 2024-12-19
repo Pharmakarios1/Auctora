@@ -4,7 +4,9 @@ from server.middlewares.exception_handler import ExcRaiser
 from server.schemas import (
     CreateUserSchema,
     APIResponse,
-    GetUserSchema
+    GetUserSchema,
+    LoginSchema,
+    LoginToken,
 )
 from server.services import UserServices
 from sqlalchemy.orm import Session
@@ -29,3 +31,12 @@ async def register(
 ) -> APIResponse[GetUserSchema]:
     result = await UserServices(db).create_user(data.model_dump())
     return APIResponse(data=result)
+
+
+@route.post('/login')
+async def login(
+    credentials: LoginSchema,
+    db: Session = Depends(get_db)
+) -> APIResponse[LoginToken]:
+    token = await UserServices(db).authenticate(credentials)
+    return APIResponse(data=token)

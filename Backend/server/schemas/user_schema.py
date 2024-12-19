@@ -33,9 +33,7 @@ class GetUserSchema(BaseModel):
     )
     email_verified: Optional[bool] = Field(default=False)
 
-    model_config = {
-        "from_attributes": True
-    }
+    model_config = {"from_attributes": True}
 
 
 class CreateUserSchema(BaseModel):
@@ -64,6 +62,22 @@ class CreateUserSchema(BaseModel):
         examples=[app_configs.test_user.PHONENUMBER]
     )
 
-    model_config = {
-        "from_attributes": True
-    }
+    model_config = {"from_attributes": True}
+
+
+class LoginSchema(BaseModel):
+    model_config = {"from_attributes": True}
+    identifier: str = Field(
+        examples=[app_configs.test_user.USERNAME,
+                  app_configs.test_user.EMAIL]
+    )
+    password: str = Field(
+        examples=[app_configs.test_user.PASSWORD],
+        min_length=8, max_length=32
+    )
+
+
+class LoginToken(BaseModel):
+    model_config = {"from_attributes": True}
+    token: str
+    token_type: str = Field(default='Bearer')
