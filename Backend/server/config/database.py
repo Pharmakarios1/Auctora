@@ -43,7 +43,6 @@ Base = (
 Base.query = scoped_session(SessionLocal).query_property()
 
 
-@contextmanager
 def get_db() -> Iterator[Session]:
     try:
         db: Session = SessionLocal()

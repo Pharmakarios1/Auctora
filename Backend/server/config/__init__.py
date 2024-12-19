@@ -1,5 +1,5 @@
 from server.config.app_configs import app_configs
-from server.config.database import Base, engine, RedisStorage
+from server.config.database import Base, engine, RedisStorage, get_db
 
 
 __all__ = [
@@ -8,7 +8,7 @@ __all__ = [
     'init_db',
     'sync_redis',
     'redis_store',
-    ]
+]
 
 
 REDIS_HOST = app_configs.DB.REDIS_HOST

@@ -70,7 +70,7 @@ def run_migrations_online() -> None:
 
     def include_name(name, type_, parent_names):
             if type_ == "schema":
-                return name in [app_configs.storages.DATABASE_SCHEMA]
+                return name in [app_configs.DB.SCHEMA]
             else:
                 return True
 
@@ -81,10 +81,10 @@ def run_migrations_online() -> None:
             include_name=include_name,
             include_schemas=True,
             compare_type=True,
-            version_table_schema=app_configs.DB.DATABASE_SCHEMA,
+            version_table_schema=app_configs.DB.SCHEMA,
         )
         connection.execute(
-            text(f"CREATE SCHEMA IF NOT EXISTS {app_configs.DB.DATABASE_SCHEMA}")
+            text(f"CREATE SCHEMA IF NOT EXISTS {app_configs.DB.SCHEMA}")
         )
 
         with context.begin_transaction():

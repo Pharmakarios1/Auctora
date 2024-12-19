@@ -38,6 +38,7 @@ class TestUser(BaseSettings):
     LASTNAME: str
     PHONENUMBER: str
     ADDRESS: str
+    PASSWORD: str
 
 
 class AppConfig(BaseSettings):
