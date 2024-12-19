@@ -1,3 +1,4 @@
+from passlib.context import CryptContext
 from server.schemas import (
     ServiceResultModel,
     GetUserSchema
@@ -11,6 +12,10 @@ from sqlalchemy.orm import Session
 class UserServices:
     def __init__(self, db: Session):
         self.repo = DBAdaptor(db).user_repo
+        self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+    async def __check_password(self, password, hashed_password) -> bool:
+        return self.pwd_context.verify(password, hashed_password)
 
     async def create_user(self, data: dict) -> GetUserSchema:
         try:
