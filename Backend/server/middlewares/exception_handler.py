@@ -2,6 +2,7 @@ from typing import Any
 from fastapi import Request, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
+from pydantic import BaseModel
 
 
 class ExcRaiser(Exception):

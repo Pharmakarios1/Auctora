@@ -31,3 +31,10 @@ class APIResponse(pyd.BaseModel, t.Generic[T]):
     data: t.Optional[T] = None
 
     model_config = {"from_attributes": True}
+
+
+class ErrorResponse(pyd.BaseModel):
+    message: str = pyd.Field(default="Failed", examples=["Failed"])
+    status_code: int
+    detail: str | Any
+    model_config = {"from_attributes": True}

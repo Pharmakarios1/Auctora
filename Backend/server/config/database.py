@@ -55,27 +55,30 @@ def get_db() -> Iterator[Session]:
 
 
 class RedisStorage:
-    def __init__(self, host: str, port: int, db: int) -> None:
-        self.redis = self.get_redis(host, port, db)
+    REDIS_HOST = app_configs.DB.REDIS_HOST
+    REDIS_PORT = int(app_configs.DB.REDIS_PORT)
+    REDIS_DB = int(app_configs.DB.REDIS_DB)
+    def __init__(self) -> None:
+        self.redis = self.get_redis()
         self.async_redis = None
 
-    def get_redis(self, host: str, port: int, db: int) -> SyncRedis:
+    def get_redis(self) -> SyncRedis:
         """Get a synchronous Redis connection."""
         redis = SyncRedis(
-            host=host,
-            port=port,
-            db=db,
+            host=self.REDIS_HOST,
+            port=self.REDIS_PORT,
+            db=self.REDIS_DB,
             decode_responses=True,
         )
         return redis
 
-    async def get_async_redis(self, host: str, port: int, db: int) -> Redis:
+    async def get_async_redis(self) -> Redis:
         """Get an asynchronous Redis connection."""
         if self.async_redis is None:
             self.async_redis = Redis(
-                host=host,
-                port=port,
-                db=db,
+                host=self.REDIS_HOST,
+                port=self.REDIS_PORT,
+                db=self.REDIS_DB,
                 decode_responses=True,
             )
         return self.async_redis

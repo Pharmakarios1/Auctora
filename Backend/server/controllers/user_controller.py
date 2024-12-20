@@ -1,5 +1,5 @@
-from fastapi import APIRouter, Depends
-from server.config import get_db
+from fastapi import APIRouter, Depends, BackgroundTasks
+from server.config import get_db, redis_store
 from server.middlewares.exception_handler import ExcRaiser
 from server.schemas import (
     CreateUserSchema,
@@ -7,33 +7,59 @@ from server.schemas import (
     GetUserSchema,
     LoginSchema,
     LoginToken,
+    ErrorResponse,
 )
-from server.services import UserServices
+from server.services import UserServices, current_user
+from server.utils import Emailer
 from sqlalchemy.orm import Session
 
 
 route = APIRouter(prefix='/users', tags=['users'])
+db = Depends(get_db)
+
 
 @route.get('/')
-def get_users(id: int = None):
+def get_users(user: current_user) -> APIResponse[GetUserSchema]:
     """
     Get all users
     """
-    if id:
-        raise ExcRaiser(status_code=404, detail='You are not meant to be here', message='User not found')
-    return {'message': 'All users returned successfully'}
+    return APIResponse(data=user)
 
 
-@route.post('/register')
+@route.post(
+        '/register',
+        responses={
+            400: {"model": ErrorResponse}
+        }
+    )
 async def register(
     data: CreateUserSchema,
     db: Session = Depends(get_db)
-) -> APIResponse[GetUserSchema]:
+) -> APIResponse:
     result = await UserServices(db).create_user(data.model_dump())
-    return APIResponse(data=result)
+
+    # async with Emailer(
+    #     subject="Email verification",
+    #     to=result.get('email'),
+    #     template_name="otp_template.html",
+    #     otp=result.get('otp')
+    # ) as emailer:
+    #     await emailer.send_message()
+
+    return APIResponse(
+        data={
+            'message':
+            'User registered successfully, OTP sent to mail for verification',
+        }
+    )
 
 
-@route.post('/login')
+@route.post(
+        '/login',
+        responses={
+            401: {"model": ErrorResponse}
+        }
+    )
 async def login(
     credentials: LoginSchema,
     db: Session = Depends(get_db)
