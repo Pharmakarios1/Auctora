@@ -7,9 +7,9 @@ const Cta = () => {
     console.log("subscribed");
   };
   return (
-    <div className="bg-gradient-to-r from-[#7B2334] to-[#9F3247] formatter rounded-md h-[320px] lg:h-[177px] py-[36px] px-[64px]">
-      <div className="flex flex-col lg:flex-row justify-between">
-        <div className="text-[32px] font-[700] text-[#FFFFFF] lg:text-[40px]">
+    <div className="bg-gradient-to-r from-[#7B2334] to-[#9F3247] formatter rounded-md h-[320px] lg:h-[177px] py-[36px] px-[24px] md:px-[64px]">
+      <div className="flex flex-col gap-8 lg:gap-0 lg:flex-row justify-between">
+        <div className="text-[24px] font-[700] text-[#FFFFFF] lg:text-[40px]">
           STAY UP TO DATE ABOUT OUR LATEST AUCTIONS
         </div>
         <div className="flex flex-col gap-3">

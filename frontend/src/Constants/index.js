@@ -12,6 +12,10 @@ import twitter from "../assets/icons/1.png";
 import facebook from "../assets/icons/2.png";
 import instaggram from "../assets/icons/3.png";
 import github from "../assets/icons/4.png";
+import fb_auth from "../assets/icons/fb_auth.png";
+import insta_auth from "../assets/icons/insta.png";
+import google_auth from "../assets/icons/google_auth.png";
+import filter_icom from "../assets/icons/filter_icon.png";
 
 export {
   logo,
@@ -28,6 +32,10 @@ export {
   instaggram,
   github,
   twitter,
+  fb_auth,
+  google_auth,
+  insta_auth,
+  filter_icom,
 };
 
 // const buildArr = {

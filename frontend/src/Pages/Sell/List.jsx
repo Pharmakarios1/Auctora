@@ -1,7 +1,9 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const List = () => {
-  return <div>List</div>;
+  // const navigate = useNavigate();
+  // navigate("/list");
+  return <div></div>;
 };
 
 export default List;

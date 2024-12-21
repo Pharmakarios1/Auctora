@@ -7,6 +7,7 @@ import List from "./Pages/Sell/List";
 import Footer from "./Pages/Home/Footer";
 import SignUp from "./Pages/Auth/SignUp";
 import SignIn from "./Pages/Auth/SignIn";
+import ViewAll from "./Pages/Views/ViewAll";
 
 const App = () => {
   return (
@@ -15,10 +16,11 @@ const App = () => {
       <Nav />
       <Routes>
         <Route path="/" element={<Layout />} />
-        <Route path="/list" element={<List />} />
+        <Route path="/list" element={<ViewAll />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="sign-up" element={<SignUp />} />
-        <Route path="sign-in" element={<SignIn />} />
+        <Route path="/Ongoing-Auction" element={<ViewAll />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/sign-in" element={<SignIn />} />
       </Routes>
       <Footer />
     </div>

@@ -12,15 +12,15 @@ const Card = ({
       <img
         src={imgUrl}
         alt=""
-        className="w-[160px] h-[161px] rounded-md bg-slate-300 md:w-[285px] md:h-[298px] "
+        className="w-[160px] h-[161px] rounded-md bg-slate-300 md:w-[240px] md:h-[268px] "
       />
       <div className="w-[171px] h-[65px] flex flex-col md:w-[285px]">
-        <h3 className="text-[#9F3247] text-[16px] font-[700] md:text-[20px]">
+        <h3 className="text-[#9F3247] text-[12px] font-[700] md:text-[15px]">
           {itemName}
         </h3>
         <div className="flex md:gap-2 flex-col md:flex-row">
           <div className="flex items-center gap-2">
-            <p className="font-[700] w-[70px] text-[16px] text-[#9F3247]">
+            <p className="font-[700] w-[70px] text-[13px] text-[#9F3247]">
               ₦{price}
             </p>
             <p className="text-[12px] text-[#9f3247] flex items-center justify-center">
